@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="o">
+<!-- mapper : DB에 쿼리문을 요청하고 결과를 돌려받는 설정파일 -->
+ 
+ <!-- 쿼리문에 절대로 ;(세미콜론) 찍으면 안됌 -->
+ <!-- resultType에는 돌려받을 결과 -->
+ <!-- sqlMapConfig.xml에서 alias로 별칭 준 사태이기에 vo.BoardVO대신 board 씀 -->
+
+<select id="myPayCnt" resultType="int" parameterType="int">
+SELECT count(*) from order_tb WHERE od_status != 1 AND user_idx = #{user_idx}
+</select>
+
+<select id="selectOrder" resultType="order" parameterType="int">
+	SELECT * FROM order_tb WHERE od_idx = #{od_idx}
+</select>
+
+<select id="myCancleCnt" resultType="int" parameterType="int">
+SELECT count(*) from order_tb WHERE od_status = 1 AND user_idx = #{user_idx}
+</select>
+
+<select id="myOrderList" resultType="orderView" parameterType="int">
+	SELECT * FROM orderview WHERE user_idx = #{user_idx} ORDER BY od_idx DESC
+</select>
+
+<select id="myCancleOrderList" resultType="orderView" parameterType="int">
+	SELECT * FROM orderview WHERE user_idx = #{user_idx} AND od_status = 1
+</select>
+
+<insert id="orderCreate" parameterType="order">
+	INSERT INTO order_tb values(seq_ordertb_idx.nextVal, #{user_idx}, #{pd_idx}, sysdate, #{od_destination}, #{od_name}, #{od_tel}, #{od_cnt}, #{od_money}, 0, #{od_mi},0)
+</insert>
+
+<insert id="payInfo" parameterType="pay">
+	INSERT INTO pay_tb values(seq_paytb_idx.nextVal, #{od_mi}, #{user_idx}, #{pay_money}, #{pay_cd}, 1)
+</insert>
+
+<update id="pdCntDown" parameterType="order">
+	UPDATE product_tb SET pd_cnt = pd_cnt-#{od_cnt} WHERE pd_idx = #{pd_idx}
+</update>
+
+<update id="od_statusChange" parameterType="int">
+	UPDATE order_tb SET od_status = 1 WHERE od_idx = #{od_idx}
+</update>
+
+<update id="reviewUpdate" parameterType="java.util.HashMap">
+	UPDATE order_tb SET od_status = 2, od_review = -1 WHERE user_idx = #{user_idx} AND od_idx = #{od_idx}
+</update>
+
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
+

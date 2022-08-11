@@ -1,0 +1,20 @@
+@charset "UTF-8";
+*{margin:0; padding:0;}
+a{text-decoration:none; text-align:center; color:black;}
+
+body {height:100vh; background:#F3F3FF; overflow:auto;}
+
+#login_box{background:white; width:400px; height:250px; padding:50px; margin:150px auto;}
+#login_box h1 {text-align:center; margin-bottom: 50px; font-size:28px;}
+
+.int_area {position: relative; margin-top: 20px;}
+.int_area:first-child {margin-top: 0;}
+.int_area input { width: 100%; padding:10px 0; background-color: transparent; border: none;
+  border-bottom: 1px solid black; font-size:16px; outline: none; }
+
+.btn_area {margin-top:30px;}
+.btn_area button{
+	width:160px; height:45px; background:#F3F3FF; margin:0 120px; color:#7070B6; border:none; 
+	border-radius:20px; font-size:20px; cursor:pointer;  font-size:16px;
+}
+

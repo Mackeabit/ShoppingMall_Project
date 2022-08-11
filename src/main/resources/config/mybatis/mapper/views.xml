@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="views">
+<!-- mapper : DB에 쿼리문을 요청하고 결과를 돌려받는 설정파일 -->
+
+<select id="QnaViewList" resultType="qnaview" parameterType="int">
+	SELECT * FROM qnaview WHERE user_idx = #{user_idx}
+</select>
+
+<!-- 결제취소 하지 않은 것 중에 골라오기 -->
+<select id="OrderViewListByMain" resultType="orderView" parameterType="int">
+	SELECT * FROM orderview WHERE user_idx = #{user_idx} AND od_status != 1
+</select>
+
+<select id="OrderViewListByMain2" resultType="orderView" parameterType="int">
+	SELECT * FROM orderview2 WHERE user_idx = #{user_idx} AND od_status != 1
+</select>
+
+<select id="OrderViewListByProduct" resultType="orderView" parameterType="orderView">
+	SELECT * FROM orderview WHERE user_idx = #{user_idx} AND pd_nm=#{pd_nm} AND od_status = 0 AND od_review = 0 ORDER BY od_date desc
+</select>
+
+<select id="PdQnaViewListByUser" resultType="pdqnaview" parameterType="int">
+	SELECT * FROM pdqnaview WHERE user_idx = #{user_idx}
+</select>
+
+<select id="qnaList" resultType="pdqnaview" parameterType="String">
+	SELECT * FROM pdqnaview WHERE pd_nm = #{pd_nm} ORDER BY qna_idx DESC
+</select>
+
+<select id="reviewList" resultType="pdreview" parameterType="String">
+	SELECT * FROM pdreview WHERE pd_nm = #{pd_nm} ORDER BY rv_idx DESC
+</select>
+
+<select id="reviewOne" resultType="pdreview" parameterType="int">
+	SELECT * FROM pdreview WHERE rv_idx = #{rv_idx}
+</select>
+
+<select id="pdqnaOne" resultType="pdqnaview" parameterType="int">
+	SELECT * FROM pdqnaview WHERE qna_idx = #{qna_idx}
+</select>
+
+
+
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
+

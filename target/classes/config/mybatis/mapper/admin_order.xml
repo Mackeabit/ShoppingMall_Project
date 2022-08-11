@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ao">
+<!-- mapper : DB에 쿼리문을 요청하고 결과를 돌려받는 설정파일 -->
+ 
+ <!-- 쿼리문에 절대로 ;(세미콜론) 찍으면 안됌 -->
+ <!-- resultType에는 돌려받을 결과 -->
+ <!-- sqlMapConfig.xml에서 alias로 별칭 준 사태이기에 vo.BoardVO대신 board 씀 -->
+	<select resultType="vo.OrderVO" id="order_list">select * from ORDER_TB order by od_idx </select>
+
+	<select resultType="vo.OrderVO" id="order_search_user" parameterType="String">select * from ORDER_TB where user_idx LIKE '%'||#{word}||'%'order by od_idx </select>
+
+	<select resultType="vo.OrderVO" id="order_search_pd" parameterType="String">select * from ORDER_TB where pd_idx LIKE '%'||#{word}||'%'order by od_idx </select>
+
+	<select resultType="vo.OrderVO" id="order_complete_list">select * from ORDER_TB where od_status = 2 order by od_idx </select>
+
+	<select resultType="vo.OrderVO" id="order_cancel_list">select * from ORDER_TB where od_status = 1 order by od_idx </select>
+	
+	<select resultType="vo.OrderVO" id="order_pay_complete_list">select * from ORDER_TB where od_status=0 order by od_idx </select>
+
+	<select resultType="vo.OrderVO" id="order_one" parameterType="int">select * from ORDER_TB where od_idx = #{od_idx} </select>
+	
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
+

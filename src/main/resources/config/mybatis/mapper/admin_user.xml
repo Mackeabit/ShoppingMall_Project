@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="au">
+<!-- mapper : DB에 쿼리문을 요청하고 결과를 돌려받는 설정파일 -->
+ 
+ <!-- 쿼리문에 절대로 ;(세미콜론) 찍으면 안됌 -->
+ <!-- resultType에는 돌려받을 결과 -->
+ <!-- sqlMapConfig.xml에서 alias로 별칭 준 사태이기에 vo.BoardVO대신 board 씀 -->
+
+	<select resultType="vo.UserVO" id="user_list">select * from USER_TB order by user_idx </select>
+
+	<select resultType="vo.UserVO" id="user_search_name" parameterType="String">select * from USER_TB where user_nm LIKE '%'||#{word}||'%'order by user_idx </select>
+
+	<select resultType="vo.UserVO" id="user_search_id" parameterType="String">select * from USER_TB where user_id LIKE '%'||#{word}||'%'order by user_idx </select>
+
+	<select resultType="vo.UserVO" id="user_view" parameterType="int">select * from USER_TB where user_idx = #{idx} </select>
+
+	<update id="user_delete" parameterType="int">update user_tb set user_status = 3 where user_idx = #{user_idx} </update>
+	
+	<select resultType = "int" id = "user_men">
+		select count(*) from user_tb where user_gen = '남'
+	</select>
+	
+	<select resultType = "int" id = "user_women">
+		select count(*) from user_tb where user_gen = '여'
+	</select>
+	
+	<select resultType = "int" id = "user_all">
+		select count(*) from user_tb
+	</select>
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
+

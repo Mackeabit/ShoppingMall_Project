@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="qna">
+<!-- mapper : DB에 쿼리문을 요청하고 결과를 돌려받는 설정파일 -->
+ 
+<insert id="qnaInsert" parameterType="qna">
+	INSERT INTO qna_tb values(seq_qnatb_idx.nextVal, #{user_idx}, #{pd_idx}, #{qna_title}, #{qna_content}, '', sysdate, 0,#{qna_secret})
+</insert>
+
+<delete id="qnaDel" parameterType="int">
+	DELETE FROM qna_tb WHERE qna_idx=#{qna_idx}
+</delete>
+
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
+

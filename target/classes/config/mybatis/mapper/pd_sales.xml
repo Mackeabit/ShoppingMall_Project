@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ps">
+	<select id="pd_sales_list" resultType="vo.PdSalesVO">
+		select p.pd_idx, p.pd_nm, pd_img, to_char(o.od_date, 'yyyy-mm-dd') as od_date, sum(o.od_money) as sales, sum(o.od_cnt) as cnt
+		from order_tb o INNER JOIN product_tb p ON o.pd_idx = p.pd_idx
+		where o.od_status IN (0, 1)
+		group by p.pd_idx, p.pd_nm, pd_img, od_date
+		order by sum(o.od_money) desc 
+	</select>
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
+

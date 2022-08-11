@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="p">
+<!-- mapper : DB에 쿼리문을 요청하고 결과를 돌려받는 설정파일 -->
+ 
+ <!-- 쿼리문에 절대로 ;(세미콜론) 찍으면 안됌 -->
+ <!-- resultType에는 돌려받을 결과 -->
+ 
+ <!-- 메인에 표시할 세일상품 담기 -->
+ <select id="category" resultType="category">
+ 	SELECT * FROM category_tb
+ </select>
+ 
+ <!-- 메인에 표시할 세일상품 담기 -->
+ <select id="saleList" resultType="main">
+ 	SELECT * FROM event_product
+ </select>
+ 
+ <!-- 메인에 표시할 MD추천상품 담기 -->
+ <select id="mdList" resultType="main">
+ 	SELECT * FROM md_product
+ </select>
+
+<!-- 상품페이지로 포워딩 시킬 상품정보 VO에 담기 --> 
+ <select id="selectListByPd_nm" resultType="product" parameterType="String">
+ 	SELECT * FROM product_tb WHERE pd_nm = #{pd_nm} AND pd_cnt != 0 AND pd_status != 2
+ </select>
+ 
+ <!-- 결제할 상품 1개 조회 -->
+ <select id="payToSelect" resultType="product" parameterType="int">
+ 	SELECT * FROM product_tb WHERE pd_idx = #{pd_idx}
+ </select>
+ 
+<!-- 카테고리별 페이지로 포워딩 시킬 상품정보들 VO에 담기 --> 
+<select id="selectListByCategory_cd" resultType="All_product" parameterType="String">
+	SELECT * FROM all_product WHERE category_cd = #{category_cd}
+</select>
+
+<!-- 키워드별 페이지로 검색한 상품의 상품정보들 VO에 담기 --> 
+<select id="selectListByKeyword" resultType="All_product" parameterType="String">
+	SELECT * FROM all_product WHERE pd_nm LIKE '%'||#{keyword}||'%'
+</select>
+
+<!-- 높은 가격 순 -->
+<select id="selectListByUp" resultType="All_product" parameterType="String">
+	SELECT * FROM all_product WHERE pd_nm LIKE '%'||#{keyword}||'%' ORDER BY pd_price DESC
+</select>
+
+<!-- 낮은 가격 순 -->
+<select id="selectListByDown" resultType="All_product" parameterType="String">
+	SELECT * FROM all_product WHERE pd_nm LIKE '%'||#{keyword}||'%' ORDER BY pd_price ASC
+</select>
+
+<!-- 카테고리별 페이지로 포워딩 시킬 카테고리 이름 --> 
+<select id="catename" resultType="String" parameterType="String">
+	SELECT category_nm FROM category_tb WHERE category_cd = #{category_cd}
+</select>
+
+<select id="CpuViewList" resultType="cpu" parameterType="int">
+	SELECT * FROM cpuview WHERE user_idx = #{user_idx}
+</select>
+
+ <!-- 상품 등록 -->
+<insert id="product_insert" parameterType="product">
+	INSERT INTO product_tb values(seq_producttb_idx.nextVal,
+	#{category_cd}, #{pd_nm}, #{pd_img}, #{pd_img1}, #{pd_img2}, #{pd_ex},
+	#{pd_size}, #{pd_price}, #{pd_cnt}, #{pd_cost}, #{pd_status})
+</insert>
+
+<!-- 장바구니 추가(첫 장바구니, 시퀀스 증가) -->
+<insert id="insertCart" parameterType="cart">
+	INSERT INTO cart_tb values(seq_carttb_idx.nextVal,#{user_idx},#{pd_idx},#{cart_cnt},#{user_idx}+1)
+</insert>
+
+<!-- 반품시 재고 수량 올려주기 -->
+<update id="pdCntDown" parameterType="int">
+	UPDATE product_tb SET pd_cnt = pd_cnt + #{pd_cnt} WHERE pd_idx = #{pd_idx}
+</update>
+
+<!-- 결제 후 재고 수량 조회 -->
+<select id="pdCntDownByPdidx" resultType="product" parameterType="int">
+	SELECT * FROM product_tb WHERE pd_idx=#{pd_idx}
+</select>
+
+<!-- 재고 수량이 0이하라면 상태변경 -->
+<update id="updatePdStatus" parameterType="int">
+	UPDATE product_tb SET pd_status = 1 WHERE pd_idx = #{pd_idx}
+</update>
+
+
+
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
+

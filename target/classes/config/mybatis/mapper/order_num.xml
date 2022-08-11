@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="on">
+	<select id="order_num_list" resultType="vo.OrderNumVO">
+		select to_char(od_date, 'yyyy-mm-dd') as od_date, 
+		count(od_status) as total,
+		count(case when od_status=0 then 1 end) as order_pay_complete,
+		count(case when od_status=1 then 1 end) as order_cancel,
+		count(case when od_status=2 then 1 end) as order_complete
+		from order_tb
+		group by to_char(od_date, 'yyyy-mm-dd')
+		order by od_date desc
+	</select>
+	
+	<select id="order_num_sum" resultType="int">
+		select count(*) from order_tb
+	</select>
+	
+	<select id="order_pay_complete_sum" resultType="int">
+		select count(*) from order_tb
+		where od_status=0
+	</select>
+	
+	<select id="order_cancel_sum" resultType="int">
+		select count(*) from order_tb
+		where od_status=1
+	</select>
+	
+	<select id="order_complete_sum" resultType="int">
+		select count(*) from order_tb
+		where od_status=2
+	</select>
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
+

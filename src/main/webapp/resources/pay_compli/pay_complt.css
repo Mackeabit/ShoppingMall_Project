@@ -1,0 +1,32 @@
+.pay_cpl{
+  width: 100%;
+  height:740px;
+  text-align: center;
+}
+
+.pay_cpl img{
+  display: inline-block;
+  position: absolute;
+  width:200px;
+  top:37%;
+  left:44%;
+
+}
+
+.home_btn{
+  background-color: #393939;
+  border-style: none;
+  width:120px;
+  height: 40px;
+  color:white;
+}
+
+.home_btn:active{
+  background-color: black;
+}
+
+.word{
+  width:100%;
+  display: inline-block;
+  margin: 250px auto;
+}

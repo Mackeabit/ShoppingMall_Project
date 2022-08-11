@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="u">
+<!-- mapper : DB에 쿼리문을 요청하고 결과를 돌려받는 설정파일 -->
+ 
+ <!-- 쿼리문에 절대로 ;(세미콜론) 찍으면 안됌 -->
+ <!-- resultType에는 돌려받을 결과 -->
+ <!-- sqlMapConfig.xml에서 alias로 별칭 준 사태이기에 vo.BoardVO대신 board 씀 -->
+
+<select id="user_selectOneById" resultType="user" parameterType="String">
+	SELECT * FROM user_tb WHERE user_id = #{user_id}
+</select>
+
+<select id="user_selectOneByIdx" resultType="user" parameterType="int">
+	SELECT * FROM user_tb WHERE user_idx = #{user_idx}
+</select>
+
+<select id="user_selectOneByEmail" resultType="user" parameterType="String">
+	SELECT * FROM user_tb WHERE user_email = #{user_email}
+</select>
+
+<select id="user_checkingEmail" resultType="int" parameterType="String">
+	SELECT COUNT(user_email) FROM user_tb WHERE user_email = #{user_email}
+</select>
+
+<select id="findByTel" resultType="user" parameterType="String">
+	SELECT * FROM user_tb WHERE user_tel = #{user_tel}
+</select>
+
+<!-- 31일 이상 로그인을 안한 계정 찾아내기 (휴면 처리를 위해 조회) -->
+<select id="dormant" resultType="user">
+	SELECT * FROM user_tb WHERE TRUNC(sysdate) - TRUNC(user_logindate) > 30
+</select>
+
+<!-- 탈퇴시켜야 하는 계정 찾아내기 -->
+<select id="selectDel" resultType="user">
+	SELECT * FROM user_tb WHERE user_status = 2 AND user_signout >= sysdate
+</select>
+
+<select id="user_checkingTelSign" resultType="int" parameterType="String">
+	SELECT COUNT(user_tel) FROM user_tb WHERE user_tel = #{user_tel}
+</select>
+
+<insert id="user_insert" parameterType="user">
+	INSERT INTO user_tb values(seq_usertb_idx.nextVal, #{user_nm}, #{user_id}, #{user_pwd}, #{user_jubun}, #{user_height}, #{user_weight}, #{user_tel}, #{user_email}, #{user_addr},sysdate,0, #{user_gen}, #{user_postcode}, sysdate, '')
+</insert>
+
+<update id="user_modi" parameterType="user">
+	UPDATE user_tb SET user_pwd = #{user_pwd}, user_height = #{user_height}, user_weight = #{user_weight}, user_addr = #{user_addr} WHERE user_idx = #{user_idx}
+</update>
+
+<update id="login_update" parameterType="user">
+	UPDATE user_tb SET user_logindate=sysdate WHERE user_idx = #{user_idx}
+</update>
+
+<update id="user_status" parameterType="user">
+	UPDATE user_tb SET user_status = #{user_status} WHERE user_idx = #{user_idx}
+</update>
+
+<update id="user_status_UPDATE" parameterType="int">
+	UPDATE user_tb SET user_status = 0 WHERE user_idx = #{user_idx}
+</update>
+
+<update id="delUpdate" parameterType="int">
+	UPDATE user_tb SET user_status = 2, user_signout = SYSDATE + (INTERVAL '1' DAY) WHERE user_idx = #{user_idx}
+</update>
+
+<update id="reUpdate" parameterType="int">
+	UPDATE user_tb SET user_status = 0, user_signout = '' WHERE user_idx = #{user_idx}
+</update>
+
+
+
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
+

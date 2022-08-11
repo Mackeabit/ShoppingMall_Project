@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ro">
+<!-- mapper : DB에 쿼리문을 요청하고 결과를 돌려받는 설정파일 -->
+
+<select id="roviewList" resultType="roview" parameterType="java.util.HashMap">
+	SELECT * FROM roview WHERE user_idx=#{user_idx} AND pd_idx = #{pd_idx}
+</select> 
+
+
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
+

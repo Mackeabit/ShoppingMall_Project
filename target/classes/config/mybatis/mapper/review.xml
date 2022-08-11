@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="r">
+<!-- mapper : DB에 쿼리문을 요청하고 결과를 돌려받는 설정파일 -->
+ 
+<insert id="reviewInsert" parameterType="review">
+	INSERT INTO review_tb values(seq_reviewtb_idx.nextVal, #{user_idx}, #{pd_idx}, #{rv_img}, #{rv_score}, #{rv_title}, #{rv_content}, sysdate)
+</insert>
+
+<delete id="reviewDel" parameterType="int">
+	DELETE FROM review_tb WHERE rv_idx=#{rv_idx}
+</delete>
+
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
+

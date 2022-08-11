@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="a">
+<!-- mapper : DB에 쿼리문을 요청하고 결과를 돌려받는 설정파일 -->
+ 
+ <!-- 쿼리문에 절대로 ;(세미콜론) 찍으면 안됌 -->
+ <!-- resultType에는 돌려받을 결과 -->
+ <!-- sqlMapConfig.xml에서 alias로 별칭 준 사태이기에 vo.BoardVO대신 board 씀 -->
+	<select id = "admin_select_one" resultType = "admin" parameterType = "String">
+		select * from admin_tb where admin_id = #{admin_id}
+	</select>
+	
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="b">
+<!-- mapper : DB에 쿼리문을 요청하고 결과를 돌려받는 설정파일 -->
+ 
+ <!-- 쿼리문에 절대로 ;(세미콜론) 찍으면 안됌 -->
+ <!-- resultType에는 돌려받을 결과 -->
+ <!-- sqlMapConfig.xml에서 alias로 별칭 준 사태이기에 vo.BoardVO대신 board 씀 -->
+ 
+ <select id="board_list" resultType="board">
+	SELECT * FROM board ORDER BY ref DESC, step
+ </select>
+ <!-- 페이지별 게시글 조회 -->
+ <select id="board_list_map" resultType="board" parameterType="java.util.HashMap">
+	SELECT * FROM (select rank() over(ORDER BY ref desc, step) no, b.* FROM board b) WHERE no BETWEEN #{start} and #{end}
+ </select>
+ 
+ <!-- 새글쓰기(댓글아님)-->
+<!-- insert, update, delete 에서는 resultType을 기술할 수 없다.
+	자동으로 정수형태로 저장 -->
+<insert id="board_insert" parameterType="board">
+	INSERT INTO board values(seq_board_idx.nextVal, #{name}, #{subject},#{content},#{pwd},#{ip},sysdate,0,seq_board_idx.currVal,0,0,0)
+</insert> 
+
+ <select id="board_one" resultType="board" parameterType="int">
+	SELECT * FROM board WHERE idx = #{idx}
+ </select>
+
+<!-- 조회수 증가 -->
+<update id="update_readhit" parameterType="int">
+	UPDATE board SET readhit = readhit + 1 WHERE idx = #{idx}
+</update>
+
+<!-- step 증가 -->
+<update id="board_update_step" parameterType="board">
+	UPDATE board SET step = step + 1 WHERE ref = #{ref} AND step > #{step}
+</update>
+
+<insert id="board_reply" parameterType="board">
+	INSERT INTO board values(seq_board_idx.nextVal, #{name}, #{subject},#{content},#{pwd},#{ip},sysdate,0,#{ref},#{step},#{depth},0)
+</insert> 
+
+
+<!-- 지워진 것처럼 보이게 업데이트 -->
+<update id="del_update" parameterType="board">
+	UPDATE board SET subject=#{subject}, name=#{name}, del_info = -1 WHERE idx = #{idx}
+</update>
+
+
+<!-- 전체 게시물 수 조회 -->
+<select id="board_count" resultType="int">
+	SELECT count(*) FROM board
+</select>
+
+
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
+
